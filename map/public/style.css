@@ -1,0 +1,185 @@
+/* General Body Styling */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f7fa;
+}
+
+/* Title Styling */
+h1 {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 2rem;
+  color: #333;
+}
+
+/* Map Container Styling */
+#map {
+  height: 500px;
+  width: 100%;
+  margin: 20px 0;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative; /* To ensure suggestions appear over the map */
+}
+
+/* Form Styling */
+form {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  position: relative; /* Make sure the form stays above the map */
+  z-index: 2;
+}
+
+#destination {
+  padding: 10px;
+  width: 300px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  margin-right: 10px;
+  outline: none;
+  transition: all 0.3s;
+  margin-top: 10px;
+}
+
+#destination:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+button[type="submit"] {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+/* Clear Button Styling */
+#clear-button {
+  padding: 10px 20px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
+
+#clear-button:hover {
+  background-color: #d32f2f;
+}
+
+.accident {
+  padding: 10px 20px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
+
+.accident:hover {
+  background-color: #d32f2f;
+}
+.rdblck {
+  padding: 10px 20px;
+  background-color: #ef6832;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
+
+.rdblck:hover {
+  background-color: rgba(205, 41, 41, 0.858);
+}
+
+/* Current Location Button Styling */
+#current-location-button {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
+
+#current-location-button:hover {
+  background-color: #218838;
+}
+
+/* Suggestions List Styling */
+#suggestions-list {
+  list-style: none;
+  margin: 10px auto;
+  padding: 0;
+  max-width: 350px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-height: 200px;
+  overflow-y: auto;
+  display: none; /* Initially hidden */
+  position: absolute; /* Position it absolutely within the parent container */
+  top: 148px;
+  left: 33.5%;
+  transform: translateX(-50%);
+  z-index: 1000; /* Ensure it's above the map */
+}
+
+#suggestions-list li {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#suggestions-list li:hover {
+  background-color: #f1f1f1;
+}
+
+/* Info Section Styling */
+#info {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+  #destination {
+    width: 80%;
+  }
+
+  button[type="submit"] {
+    width: 80%;
+  }
+
+  #clear-button {
+    width: 80%;
+  }
+}

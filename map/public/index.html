@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Route Map</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>Route and Traffic Conditions</h1>
+    <form id="destination-form">
+      <input
+        type="text"
+        id="destination"
+        placeholder="Enter destination"
+        required
+      />
+      <div class="btn">
+        <button type="submit">Show Route</button>
+        <button id="clear-button">Clear Route</button>
+        <button id="current-location-button">Current Location</button>
+        <div id="hazard-report">
+          <button class="rdblck" onclick="reportHazard('roadblock')">
+            Report Roadblock
+          </button>
+          <button class="accident" onclick="reportHazard('accident')">
+            Report Accident
+          </button>
+        </div>
+      </div>
+    </form>
+    <ul id="suggestions-list"></ul>
+    <!-- Clear button -->
+    <div id="info"></div>
+    <div id="map"></div>
+    <!-- Suggestions list -->
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/5.x/5.0.0/maps-web.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
