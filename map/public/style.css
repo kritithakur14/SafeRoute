@@ -81,3 +81,17 @@ h1 {
   flex-direction: column;
   align-items: center;
 }
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+  #destination {
+    width: 80%;
+  }
+
+  button[type="submit"] {
+    width: 80%;
+  }
+
+  #clear-button {
+    width: 80%;
+  }
+}

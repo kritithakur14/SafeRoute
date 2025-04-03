@@ -249,6 +249,9 @@ async function reportHazard(type) {
   }
 
   await sendHazardReport(type, latitude, longitude);
+
+  // Fetch and display hazards after reporting
+  fetchAndDisplayRouteHazards(routeCoordinates);
 }
 
 // Separate function to send hazard data
@@ -261,7 +264,7 @@ async function sendHazardReport(type, latitude, longitude) {
     });
     const data = await response.json();
     alert(data.message || "Hazard reported successfully!");
-    fetchAndDisplayHazards(); // Refresh hazards after reporting
+    fetchAndDisplayRouteHazards(routeCoordinates); // Refresh hazards after reporting
   } catch (error) {
     console.error("Error reporting hazard:", error);
   }
@@ -289,6 +292,12 @@ document
 document
   .getElementById("current-location-button")
   .addEventListener("click", centerMapToCurrentLocation);
+  document
+  .getElementById("show-route-button")
+  .addEventListener("click", (event) => {
+    event.preventDefault(); // Form submit hone se roko
+    handleDestinationSearch(event);
+  });
 
 // Auto-center map on load
 centerMapToCurrentLocation();
