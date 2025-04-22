@@ -95,3 +95,8 @@ h1 {
     width: 80%;
   }
 }
+
+.toast.show {
+  visibility: visible;
+  opacity: 1;
+}

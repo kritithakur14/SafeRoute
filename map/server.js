@@ -2,6 +2,13 @@ const express = require("express");
 const axios = require("axios");
 const path = require("path");
 const app = express();
+const http = require("http").createServer(app);
+const io = require("socket.io")(http, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
 
 const MAPS_API_URL =
   "https://api.openrouteservice.org/v2/directions/driving-car";
@@ -9,14 +16,13 @@ const API_KEY = "5b3ce3597851110001cf6248a5f299b4c21d4febb149cf83d068a58d";
 
 const mongoose = require("mongoose");
 
-const MONGO_URI =
-  "mongodb://127.0.0.1:27017/hazard_alert";
+const MONGO_URI = "mongodb://127.0.0.1:27017/hazard_alert";
 
 mongoose
   .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("MongoDB connected!"))
   .catch((err) => console.error("MongoDB connection error:", err));
-//
+
 const Hazard = require("./models/Hazard"); // Import the model
 
 app.use(express.json()); // Parse JSON body
@@ -38,15 +44,6 @@ app.post("/api/hazards", async (req, res) => {
     res.status(500).json({ error: "Failed to save hazard" });
   }
 });
-
-// Dummy hazards data
-// const hazards = [
-//   { id: 1, type: "Roadblock", location: "Main Street" },
-//   { id: 2, type: "Accident", location: "Highway 21" },
-// ];
-// app.get("/api/hazards", (req, res) => {
-//   res.json(hazards);
-// });
 
 app.get("/api/hazards", async (req, res) => {
   try {
@@ -96,9 +93,9 @@ app.get("/api/traffic", async (req, res) => {
   try {
     // Fetch the route data from OpenRouteService API
     const response = await axios.get(MAPS_API_URL, {
-      headers: { Authorization: `Bearer ${API_KEY}` },
+      headers: { Authorization: `Bearer ${API_KEY} ` },
       params: {
-        start: `${sourceLng},${sourceLat}`,
+        start: ` ${sourceLng},${sourceLat}`,
         end: `${destLng},${destLat}`,
       },
     });
@@ -120,7 +117,7 @@ app.get("/api/traffic", async (req, res) => {
       });
 
       blockedSegments.push({
-        start: coordinates[6], // Another example
+        start: coordinates[6],
         end: coordinates[8],
         type: "accident",
         message: "Accident reported here. Expect delays.",
@@ -140,6 +137,21 @@ app.get("/api/traffic", async (req, res) => {
 
 // Set the server to listen on a port
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+http.listen(PORT, () => {
+  console.log(`🚀 Server + Socket.IO running on http://localhost:${PORT}`);
+});
+
+// Socket.io connection
+io.on("connection", (socket) => {
+  console.log("A user connected:", socket.id);
+
+  socket.on("send-alert", (data) => {
+    console.log("Real-time alert:", data);
+    // socket.broadcast.emit("receive-alert", data);
+    io.emit("receive-alert", data); // Emit to all connected clients
+  });
+
+  socket.on("disconnect", () => {
+    console.log("A user disconnected:", socket.id);
+  });
 });
