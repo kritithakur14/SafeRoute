@@ -186,14 +186,6 @@ function isHazardNearRoute(hazard, routeCoordinates) {
   );
 }
 
-// function isHazardNearPoint(hazard, lat, lon) {
-//   const threshold = 0.005; // ~500m
-//   const distance = Math.sqrt(
-//     Math.pow(lat - hazard.latitude, 2) + Math.pow(lon - hazard.longitude, 2)
-//   );
-//   return distance < threshold;
-// }
-
 function isHazardNearPoint(hazard, lat, lon) {
   const thresholdMeters = 500; // Set your desired distance threshold in meters
   const distance = haversineDistance(
@@ -317,13 +309,6 @@ document
   });
 
 // Socket alert listener
-// socket.on("receive-alert", (data) => {
-//   console.log("📥 Received alert:", data);
-//   showToast(`🚨 ${data.message}`);
-//   fetchAndDisplayRouteHazards(routeCoordinates);
-// });
-
-// Socket alert listener
 socket.on("receive-alert", (data) => {
   console.log("📥 Received alert:", data);
 
@@ -340,7 +325,7 @@ socket.on("receive-alert", (data) => {
       data.longitude
     );
 
-    const threshold = 500; // 500 meters threshold
+    const threshold = 2000; // 500 meters threshold
 
     // Only show the toast if the user is within the threshold distance
     if (distance <= threshold) {

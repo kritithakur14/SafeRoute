@@ -1,4 +1,0 @@
-axios
-cors
-dotenv
-express

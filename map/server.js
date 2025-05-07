@@ -65,7 +65,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// Serve static files (like index.html, script.js, style.css) from the 'public' folder
 app.use(express.static(path.join(__dirname, "public")));
 
 // Handle root route (http://localhost:5000/)
@@ -102,12 +101,9 @@ app.get("/api/traffic", async (req, res) => {
 
     const routeData = response.data;
 
-    // Example of dynamically simulating traffic incidents (for now, using hardcoded segments)
     const blockedSegments = [];
     const coordinates = routeData.features[0].geometry.coordinates;
 
-    // You can add traffic incidents dynamically based on coordinates or conditions
-    // For example, let's add a roadblock between the 3rd and 5th coordinate point
     if (coordinates.length > 5) {
       blockedSegments.push({
         start: coordinates[2], // Adjust based on your route data
@@ -147,7 +143,6 @@ io.on("connection", (socket) => {
 
   socket.on("send-alert", (data) => {
     console.log("Real-time alert:", data);
-    // socket.broadcast.emit("receive-alert", data);
     io.emit("receive-alert", data); // Emit to all connected clients
   });
 

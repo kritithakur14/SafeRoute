@@ -1,5 +1,4 @@
 body {
-  /* font-family: "Poppins", sans-serif; */
   font-family: Plus Jakarta Sans;
   font-weight: 400;
   font-size: larger;
@@ -21,7 +20,6 @@ body {
 }
 
 h1 {
-  /* color: #333; */
   color: #214997;
 }
 

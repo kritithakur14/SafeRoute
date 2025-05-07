@@ -55,12 +55,6 @@
         >
           Current Location
         </button>
-        <!-- <button class="btn orange" onclick="reportHazard('roadblock')" >
-          Report Roadblock
-        </button>
-        <button class="btn purple" onclick="reportHazard('accident')" >
-          Report Accident
-        </button> -->
         <button class="btn orange" onclick="handleReport('roadblock')">
           Report Roadblock
         </button>
@@ -70,6 +64,7 @@
       </div>
     </div>
     <script src="/socket.io/socket.io.js"></script>
+
     <!-- Toastify JS -->
     <script
       type="text/javascript"
@@ -77,8 +72,6 @@
     ></script>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-    <!-- <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/maps/maps-web.min.js"></script> -->
 
     <script src="script.js"></script>
   </body>
