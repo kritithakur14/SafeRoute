@@ -353,3 +353,46 @@ socket.on("receive-alert", (data) => {
     }
   });
 });
+
+const destinationInput = document.getElementById("destination");
+const suggestionsList = document.getElementById("suggestions-list");
+
+// Fetch suggestions from Nominatim
+async function fetchSuggestions(query) {
+  const response = await fetch(
+    `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+      query
+    )}&addressdetails=1&limit=10&countrycodes=IN`
+  );
+  return await response.json();
+}
+
+// Handle input changes
+destinationInput.addEventListener("input", async () => {
+  const query = destinationInput.value.trim();
+  suggestionsList.innerHTML = "";
+
+  if (!query) return;
+
+  const results = await fetchSuggestions(query);
+
+  results.forEach((place) => {
+    const li = document.createElement("li");
+    li.textContent = place.display_name;
+    li.classList.add("suggestion-item");
+
+    li.addEventListener("click", () => {
+      destinationInput.value = place.display_name;
+      suggestionsList.innerHTML = "";
+    });
+
+    suggestionsList.appendChild(li);
+  });
+});
+
+// Hide suggestions on outside click
+document.addEventListener("click", (e) => {
+  if (!e.target.closest("#destination-form")) {
+    suggestionsList.innerHTML = "";
+  }
+});

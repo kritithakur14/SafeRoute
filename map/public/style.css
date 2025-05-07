@@ -2,14 +2,13 @@ body {
   /* font-family: "Poppins", sans-serif; */
   font-family: Plus Jakarta Sans;
   font-weight: 400;
-  font-size:larger;
+  font-size: larger;
   font-style: normal;
   margin: 0;
   padding: 0;
   background: linear-gradient(to right, #4b79a1, #283e51);
   color: white;
 }
-
 
 .container {
   max-width: 1260px;
@@ -23,7 +22,7 @@ body {
 
 h1 {
   /* color: #333; */
-  color:#214997
+  color: #214997;
 }
 
 #map {
@@ -65,20 +64,45 @@ h1 {
   width: 100%;
 }
 
-.blue { background-color: #007aff; color: white; }
-.blue:hover { background-color: #005bb5; }
+.blue {
+  background-color: #007aff;
+  color: white;
+}
+.blue:hover {
+  background-color: #005bb5;
+}
 
-.red { background-color: #e63946; color: white; }
-.red:hover { background-color: #b71c1c; }
+.red {
+  background-color: #e63946;
+  color: white;
+}
+.red:hover {
+  background-color: #b71c1c;
+}
 
-.green { background-color: #2a9d8f; color: white; }
-.green:hover { background-color: #1b6f66; }
+.green {
+  background-color: #2a9d8f;
+  color: white;
+}
+.green:hover {
+  background-color: #1b6f66;
+}
 
-.orange { background-color: #f4a261; color: white; }
-.orange:hover { background-color: #e76f51; }
+.orange {
+  background-color: #f4a261;
+  color: white;
+}
+.orange:hover {
+  background-color: #e76f51;
+}
 
-.purple { background-color: #9b5de5; color: white; }
-.purple:hover { background-color: #7b3bc8; }
+.purple {
+  background-color: #9b5de5;
+  color: white;
+}
+.purple:hover {
+  background-color: #7b3bc8;
+}
 
 .floating-buttons {
   position: absolute;
@@ -92,6 +116,32 @@ h1 {
   flex-direction: column;
   align-items: center;
   z-index: 9999;
+}
+
+#suggestions-list {
+  list-style: none;
+  margin: 0;
+  margin-left: 0px;
+  padding: 0;
+  background: rgb(140, 171, 238);
+  border: 1px solid #ccc;
+  max-height: 150px;
+  overflow-y: auto;
+  position: absolute;
+  width: 50%;
+  z-index: 999;
+  margin-left: 145px;
+}
+
+.suggestion-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  color: black;
+}
+
+.suggestion-item:hover {
+  background-color: rgb(86, 132, 231);
+
 }
 
 @media (max-width: 768px) {
