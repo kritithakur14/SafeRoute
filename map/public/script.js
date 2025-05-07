@@ -1,4 +1,3 @@
-
 const socket = io(); // Initialize socket.io
 const map = L.map("map").setView([51.505, -0.09], 13); // Default view
 
@@ -13,15 +12,15 @@ let incidentMarkers = [];
 let manualLocation = null;
 let routeCoordinates = [];
 
-// Toast function 
+// Toast function
 function showToast(message) {
   Toastify({
     text: message,
     duration: 10000,
-    gravity: "top", 
+    gravity: "top",
     position: "right",
-    backgroundColor: "#4CAF50", 
-    stopOnFocus: true
+    backgroundColor: "#4CAF50",
+    stopOnFocus: true,
   }).showToast();
 }
 
@@ -187,12 +186,39 @@ function isHazardNearRoute(hazard, routeCoordinates) {
   );
 }
 
+// function isHazardNearPoint(hazard, lat, lon) {
+//   const threshold = 0.005; // ~500m
+//   const distance = Math.sqrt(
+//     Math.pow(lat - hazard.latitude, 2) + Math.pow(lon - hazard.longitude, 2)
+//   );
+//   return distance < threshold;
+// }
+
 function isHazardNearPoint(hazard, lat, lon) {
-  const threshold = 0.005; // ~500m
-  const distance = Math.sqrt(
-    Math.pow(lat - hazard.latitude, 2) + Math.pow(lon - hazard.longitude, 2)
+  const thresholdMeters = 500; // Set your desired distance threshold in meters
+  const distance = haversineDistance(
+    lat,
+    lon,
+    hazard.latitude,
+    hazard.longitude
   );
-  return distance < threshold;
+  return distance < thresholdMeters;
+}
+
+function haversineDistance(lat1, lon1, lat2, lon2) {
+  const toRad = (x) => (x * Math.PI) / 180;
+  const R = 6371000; // Earth's radius in meters
+
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  return R * c; // distance in meters
 }
 
 // Report a hazard
@@ -210,10 +236,14 @@ async function reportHazard(type) {
         longitude = position.coords.longitude;
         await sendHazardReport(type, latitude, longitude);
       },
-      () => alert("Could not retrieve location.")
+      () => {
+        alert("Could not retrieve location.");
+        showToast("Failed to report hazard.");
+      }
     );
   } else {
     alert("Geolocation not supported.");
+    showToast("Failed to report hazard.");
   }
 }
 
@@ -238,12 +268,13 @@ async function sendHazardReport(type, latitude, longitude) {
       )}, ${longitude.toFixed(3)})`,
     });
 
-    // showToast(`${type.toUpperCase()} reported successfully!`);
+    showToast(`${type.toUpperCase()} reported successfully!`);
 
     // Refresh hazards
     fetchAndDisplayRouteHazards(routeCoordinates);
   } catch (error) {
     console.error("Error sending hazard report:", error);
+    showToast("Failed to report hazard.");
   }
 }
 
@@ -286,9 +317,39 @@ document
   });
 
 // Socket alert listener
+// socket.on("receive-alert", (data) => {
+//   console.log("📥 Received alert:", data);
+//   showToast(`🚨 ${data.message}`);
+//   fetchAndDisplayRouteHazards(routeCoordinates);
+// });
+
+// Socket alert listener
 socket.on("receive-alert", (data) => {
   console.log("📥 Received alert:", data);
-  showToast(`🚨 ${data.message}`);
-  fetchAndDisplayRouteHazards(routeCoordinates);
-});
 
+  // Get the user's current location
+  navigator.geolocation.getCurrentPosition((position) => {
+    const userLat = position.coords.latitude;
+    const userLng = position.coords.longitude;
+
+    // Calculate the distance from the hazard to the user's location
+    const distance = haversineDistance(
+      userLat,
+      userLng,
+      data.latitude,
+      data.longitude
+    );
+
+    const threshold = 500; // 500 meters threshold
+
+    // Only show the toast if the user is within the threshold distance
+    if (distance <= threshold) {
+      showToast(`🚨 ${data.message} (${Math.round(distance)} meters away)`);
+      fetchAndDisplayRouteHazards(routeCoordinates); // Refresh hazard markers on map
+    } else {
+      console.log(
+        `No alert: User is ${Math.round(distance)} meters away from hazard.`
+      );
+    }
+  });
+});
